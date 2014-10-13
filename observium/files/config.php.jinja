@@ -1,0 +1,40 @@
+<?php
+############################################
+### File is managed by salt, do not edit ###
+############################################
+
+## Have a look in includes/defaults.inc.php for examples of settings you can set here. DO NOT EDIT defaults.inc.php!
+
+// Database config
+$config['db_host'] = '{{ salt['pillar.get']('observium:db_host', 'localhost') }}';
+$config['db_user'] = '{{ salt['pillar.get']('observium:db_user', 'observium') }}';
+$config['db_pass'] = '{{ salt['pillar.get']('observium:db_pass', '') }}';
+$config['db_name'] = '{{ salt['pillar.get']('observium:db_user', 'observium') }}';
+
+// Location
+$config['install_dir']  = "{{ salt['pillar.get']('observium:lookup:base_path', '/opt/observium') }}";
+
+// Thie should *only* be set if you want to *force* a particular hostname/port
+// It will prevent the web interface being usable form any other hostname
+#$config['base_url']        = "http://observium.company.com";
+
+// Default community list to use when adding/discovering
+$config['snmp']['community'] = array("{{ salt['pillar.get']('observium:snmp_community', 'public') }}");
+
+// Authentication Model
+$config['auth_mechanism'] = "{{ salt['pillar.get']('observium.auth_mechanism', 'mysql') }}";    // default, other options: ldap, http-auth, please see documentation for config help
+
+// Enable alerter
+// $config['poller-wrapper']['alerter']       = {{ salt['pillar.get']('observium:poller_wrapper', 'TRUE') }};
+
+// Set up a default alerter (email to a single address)
+$config['alerts']['alerter']['default']['descr']   = "{{ salt['pillar.get']('observium:alerts_desc', 'Default Email Alert') }}";
+$config['alerts']['alerter']['default']['type']    = "{{ salt['pillar.get']('observium:alerts_type', 'email') }}";
+$config['alerts']['alerter']['default']['contact'] = "{{ salt['pillar.get']('observium:alerts_contact', 'you@yourdomain') }}";
+$config['alerts']['alerter']['default']['enable']  = {{ salt['pillar.get']('observium:alerts_enabled', 'TRUE') }};
+
+
+// Autodiscovery
+$config['autodiscover_services']               = TRUE; // Autodiscover services via SNMP on devices of type "server"
+// End config.php
+
